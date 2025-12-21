@@ -10,13 +10,13 @@ export const Hero: React.FC<HeroProps> = ({ scrollY }) => {
   return (
     <div className="relative h-screen w-full overflow-hidden flex items-center justify-center group">
       {/* Background with Parallax and Hover Effect */}
-      <div 
+      <div
         className="absolute inset-0 pointer-events-none"
         style={{ transform: `translateY(${scrollY * 0.5}px)` }}
       >
         <div className="w-full h-full bg-geometric opacity-40 transition-transform duration-[3000ms] ease-out group-hover:scale-110 group-hover:translate-x-2"></div>
       </div>
-      
+
       {/* Abstract Gradient Orbs */}
       <div className="absolute top-1/4 -left-20 w-96 h-96 bg-gold-600/20 rounded-full blur-2xl"></div>
       <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-gray-800/30 rounded-full blur-2xl"></div>
@@ -33,8 +33,8 @@ export const Hero: React.FC<HeroProps> = ({ scrollY }) => {
 
         <Reveal delay={0.2}>
           <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 leading-tight">
-            Elevating <span className="text-gradient-gold">Financial Futures</span><br />
-            in Accra & Beyond.
+            World-class expertise with <span className="text-gradient-gold">Ghanaian Roots</span>,<br />
+            to Elevate your business.
           </h1>
         </Reveal>
 
