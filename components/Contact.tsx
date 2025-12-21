@@ -7,8 +7,8 @@ import emailjs from '@emailjs/browser';
 export const Contact: React.FC = () => {
   const form = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState<ContactFormData>({
-    name: '',
-    email: '',
+    user_name: '',
+    user_email: '',
     subject: '',
     message: ''
   });
@@ -40,7 +40,8 @@ export const Contact: React.FC = () => {
       if (form.current) {
         await emailjs.sendForm(serviceId, templateId, form.current, publicKey);
         setIsSubmitted(true);
-        setFormData({ name: '', email: '', subject: '', message: '' });
+        setIsSubmitted(true);
+        setFormData({ user_name: '', user_email: '', subject: '', message: '' });
 
         // Reset success message after 5 seconds
         setTimeout(() => {
@@ -130,26 +131,26 @@ export const Contact: React.FC = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                   <div className="space-y-2">
-                    <label htmlFor="name" className="text-xs uppercase tracking-widest text-gold-500 font-bold">Name</label>
+                    <label htmlFor="user_name" className="text-xs uppercase tracking-widest text-gold-500 font-bold">Name</label>
                     <input
                       type="text"
-                      id="name"
-                      name="name"
+                      id="user_name"
+                      name="user_name"
                       required
-                      value={formData.name}
+                      value={formData.user_name}
                       onChange={handleChange}
                       className="w-full bg-black/20 border-b border-gray-700 text-white px-4 py-3 focus:outline-none focus:border-gold-500 transition-colors shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)]"
                       placeholder="John Mensah"
                     />
                   </div>
                   <div className="space-y-2">
-                    <label htmlFor="email" className="text-xs uppercase tracking-widest text-gold-500 font-bold">Email</label>
+                    <label htmlFor="user_email" className="text-xs uppercase tracking-widest text-gold-500 font-bold">Email</label>
                     <input
                       type="email"
-                      id="email"
-                      name="email"
+                      id="user_email"
+                      name="user_email"
                       required
-                      value={formData.email}
+                      value={formData.user_email}
                       onChange={handleChange}
                       className="w-full bg-black/20 border-b border-gray-700 text-white px-4 py-3 focus:outline-none focus:border-gold-500 transition-colors shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)]"
                       placeholder="john@company.com"
