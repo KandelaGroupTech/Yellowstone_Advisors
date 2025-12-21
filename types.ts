@@ -13,8 +13,8 @@ export interface Service {
 }
 
 export interface ContactFormData {
-  name: string;
-  email: string;
+  user_name: string;
+  user_email: string;
   subject: string;
   message: string;
 }
