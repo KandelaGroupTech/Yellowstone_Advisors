@@ -127,11 +127,11 @@ export const Contact: React.FC = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                   <div className="space-y-2">
-                    <label htmlFor="user_name" className="text-xs uppercase tracking-widest text-gold-500 font-bold">Name</label>
+                    <label htmlFor="name" className="text-xs uppercase tracking-widest text-gold-500 font-bold">Name</label>
                     <input
                       type="text"
-                      id="user_name"
-                      name="user_name"
+                      id="name"
+                      name="name"
                       required
                       value={formData.name}
                       onChange={handleChange}
@@ -140,11 +140,11 @@ export const Contact: React.FC = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <label htmlFor="user_email" className="text-xs uppercase tracking-widest text-gold-500 font-bold">Email</label>
+                    <label htmlFor="email" className="text-xs uppercase tracking-widest text-gold-500 font-bold">Email</label>
                     <input
                       type="email"
-                      id="user_email"
-                      name="user_email"
+                      id="email"
+                      name="email"
                       required
                       value={formData.email}
                       onChange={handleChange}
