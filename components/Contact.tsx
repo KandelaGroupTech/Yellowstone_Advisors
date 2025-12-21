@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Reveal } from './Reveal';
 import { Mail, MapPin, Phone } from 'lucide-react';
 import { ContactFormData } from '../types';
+import emailjs from '@emailjs/browser';
 
 export const Contact: React.FC = () => {
+  const form = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState<ContactFormData>({
     name: '',
     email: '',
@@ -12,37 +14,51 @@ export const Contact: React.FC = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setErrorMessage('');
 
-    // Simulate API call
-    setTimeout(() => {
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+    if (!serviceId || !templateId || !publicKey) {
+      setErrorMessage('Configuration error: EmailJS keys missing.');
       setIsSubmitting(false);
-      setIsSubmitted(true);
-      
-      // Construct mailto link as fallback/feature
-      const mailtoLink = `mailto:info@yellowstoneadvisors.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\n${formData.message}`)}`;
-      window.location.href = mailtoLink;
-      
-      // Reset form after delay
-      setTimeout(() => {
-        setIsSubmitted(false);
+      return;
+    }
+
+    try {
+      if (form.current) {
+        await emailjs.sendForm(serviceId, templateId, form.current, publicKey);
+        setIsSubmitted(true);
         setFormData({ name: '', email: '', subject: '', message: '' });
-      }, 5000);
-    }, 1500);
+
+        // Reset success message after 5 seconds
+        setTimeout(() => {
+          setIsSubmitted(false);
+        }, 5000);
+      }
+    } catch (error) {
+      console.error('EmailJS Error:', error);
+      setErrorMessage('Failed to send message. Please try again later.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <div className="py-24 bg-charcoal border-t border-white/5">
       <div className="container mx-auto px-6 lg:px-12">
-        
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           {/* Contact Info */}
           <div>
@@ -92,7 +108,7 @@ export const Contact: React.FC = () => {
           {/* Contact Form */}
           <div className="relative">
             <Reveal delay={0.4}>
-              <form onSubmit={handleSubmit} className="bg-white/5 backdrop-blur-sm p-8 border border-white/10 shadow-2xl">
+              <form ref={form} onSubmit={handleSubmit} className="bg-white/5 backdrop-blur-sm p-8 border border-white/10 shadow-2xl">
                 {isSubmitted ? (
                   <div className="absolute inset-0 flex flex-col items-center justify-center bg-obsidian/95 z-10 p-8 text-center animate-fade-in">
                     <div className="w-16 h-16 border-2 border-gold-500 rounded-full flex items-center justify-center mb-4">
@@ -103,13 +119,19 @@ export const Contact: React.FC = () => {
                   </div>
                 ) : null}
 
+                {errorMessage && (
+                  <div className="mb-4 p-3 bg-red-900/50 border border-red-500/50 text-red-200 text-sm rounded">
+                    {errorMessage}
+                  </div>
+                )}
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                   <div className="space-y-2">
-                    <label htmlFor="name" className="text-xs uppercase tracking-widest text-gold-500 font-bold">Name</label>
+                    <label htmlFor="user_name" className="text-xs uppercase tracking-widest text-gold-500 font-bold">Name</label>
                     <input
                       type="text"
-                      id="name"
-                      name="name"
+                      id="user_name"
+                      name="user_name"
                       required
                       value={formData.name}
                       onChange={handleChange}
@@ -118,11 +140,11 @@ export const Contact: React.FC = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <label htmlFor="email" className="text-xs uppercase tracking-widest text-gold-500 font-bold">Email</label>
+                    <label htmlFor="user_email" className="text-xs uppercase tracking-widest text-gold-500 font-bold">Email</label>
                     <input
                       type="email"
-                      id="email"
-                      name="email"
+                      id="user_email"
+                      name="user_email"
                       required
                       value={formData.email}
                       onChange={handleChange}
