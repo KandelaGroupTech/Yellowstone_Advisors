@@ -37,17 +37,31 @@ export const Contact: React.FC = () => {
     }
 
     try {
-      if (form.current) {
-        await emailjs.sendForm(serviceId, templateId, form.current, publicKey);
-        setIsSubmitted(true);
-        setIsSubmitted(true);
-        setFormData({ user_name: '', user_email: '', subject: '', message: '' });
+      // Create a superset of parameters to maximize compatibility with the template
+      const templateParams = {
+        user_name: formData.user_name,
+        user_email: formData.user_email,
+        // Fallback/Common variants
+        name: formData.user_name,
+        email: formData.user_email,
+        from_name: formData.user_name,
+        from_email: formData.user_email,
+        reply_to: formData.user_email,
+        subject: formData.subject,
+        message: formData.message,
+        to_name: 'Yellowstone Advisors'
+      };
 
-        // Reset success message after 5 seconds
-        setTimeout(() => {
-          setIsSubmitted(false);
-        }, 5000);
-      }
+      await emailjs.send(serviceId, templateId, templateParams, publicKey);
+
+      setIsSubmitted(true);
+      setFormData({ user_name: '', user_email: '', subject: '', message: '' });
+
+      // Reset success message after 5 seconds
+      setTimeout(() => {
+        setIsSubmitted(false);
+      }, 5000);
+
     } catch (error) {
       console.error('EmailJS Error Details:', error);
       if (typeof error === 'object' && error !== null && 'text' in error) {
