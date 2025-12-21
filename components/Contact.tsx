@@ -48,7 +48,10 @@ export const Contact: React.FC = () => {
         }, 5000);
       }
     } catch (error) {
-      console.error('EmailJS Error:', error);
+      console.error('EmailJS Error Details:', error);
+      if (typeof error === 'object' && error !== null && 'text' in error) {
+        console.error('EmailJS Error Text:', (error as any).text);
+      }
       setErrorMessage('Failed to send message. Please try again later.');
     } finally {
       setIsSubmitting(false);
