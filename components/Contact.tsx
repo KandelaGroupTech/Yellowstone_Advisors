@@ -41,6 +41,8 @@ export const Contact: React.FC = () => {
       const templateParams = {
         user_name: formData.user_name,
         user_email: formData.user_email,
+        recipient: formData.user_email, // Matches 'To Email' in Auto-Reply
+        title: formData.subject,        // Matches {{title}} in Auto-Reply
         // Fallback/Common variants
         name: formData.user_name,
         email: formData.user_email,
