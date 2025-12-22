@@ -47,7 +47,7 @@ export const Contact: React.FC = () => {
         from_name: formData.user_name,
         from_email: formData.user_email,
         reply_to: formData.user_email,
-        to_email: 'inquiry@yellowstoneadvisors.com', // Explicitly set recipient
+        to_email: 'info@yellowstonegh.com', // Explicitly set recipient
         subject: formData.subject,
         message: formData.message,
         to_name: 'Yellowstone Advisors'
@@ -107,7 +107,7 @@ export const Contact: React.FC = () => {
                   <div>
                     <h4 className="text-white font-serif text-lg mb-1">Email Us</h4>
                     <p className="text-gray-400 text-sm">
-                      inquiry@yellowstoneadvisors.com
+                      info@yellowstonegh.com
                     </p>
                   </div>
                 </div>
