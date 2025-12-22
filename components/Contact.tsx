@@ -67,14 +67,19 @@ export const Contact: React.FC = () => {
 
     } catch (error) {
       console.error('EmailJS Error Details:', error);
-      if (typeof error === 'object' && error !== null && 'text' in error) {
-        console.error('EmailJS Error Text:', (error as any).text);
+
+      let errorMsg = 'Failed to send message.';
+      try {
+        if (typeof error === 'string') {
+          errorMsg = error;
+        } else if (error && typeof error === 'object') {
+          errorMsg = (error as any).text || (error as any).message || JSON.stringify(error);
+        }
+      } catch (e) {
+        errorMsg = 'Unknown error occurred';
       }
-      setErrorMessage(
-        (error as any)?.text ||
-        (error as any)?.message ||
-        'Failed to send message. Please try again later.'
-      );
+
+      setErrorMessage(`Error: ${errorMsg}`);
     } finally {
       setIsSubmitting(false);
     }
