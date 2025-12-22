@@ -30,6 +30,13 @@ export const Contact: React.FC = () => {
     const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
     const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
+    console.log('Debug: Contact Config Status', {
+      hasServiceId: !!serviceId,
+      hasTemplateId: !!templateId,
+      hasPublicKey: !!publicKey,
+      serviceIdLen: serviceId ? serviceId.length : 0
+    });
+
     if (!serviceId || !templateId || !publicKey) {
       setErrorMessage('Configuration error: EmailJS keys missing.');
       setIsSubmitting(false);
