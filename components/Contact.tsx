@@ -70,7 +70,11 @@ export const Contact: React.FC = () => {
       if (typeof error === 'object' && error !== null && 'text' in error) {
         console.error('EmailJS Error Text:', (error as any).text);
       }
-      setErrorMessage('Failed to send message. Please try again later.');
+      setErrorMessage(
+        (error as any)?.text ||
+        (error as any)?.message ||
+        'Failed to send message. Please try again later.'
+      );
     } finally {
       setIsSubmitting(false);
     }
