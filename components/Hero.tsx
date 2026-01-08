@@ -33,8 +33,8 @@ export const Hero: React.FC<HeroProps> = ({ scrollY }) => {
 
         <Reveal delay={0.2}>
           <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 leading-tight">
-            World-class expertise with <span className="text-gradient-gold">Ghanaian Roots</span>,<br />
-            to Elevate your business.
+            <span className="text-gradient-gold">Elevate your business.</span><br />
+            We can help.
           </h1>
         </Reveal>
 
